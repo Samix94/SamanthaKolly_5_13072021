@@ -34,10 +34,6 @@ fetch('http://localhost:3000/api/products/' + id)
         let description = document.getElementById("description")
         description.innerHTML = `${data.description}`
 
-      
-
-        // Pour les option des couleurs voir la boucle "foreach" sur un tableau //
-
         })
     })
 

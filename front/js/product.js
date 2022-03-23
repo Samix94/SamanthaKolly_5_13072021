@@ -4,9 +4,9 @@ console.log(id)
 
 let panier = []
   if (localStorage.getItem("panier")){
-console.log("coucou")
+  console.log("coucou")
 let panier = JSON.parse(localStorage.getItem("panier"))
-console.log(panier)
+  console.log(panier)
   }
 
 fetch('http://localhost:3000/api/products/' + id)
@@ -43,11 +43,17 @@ fetch('http://localhost:3000/api/products/' + id)
         description.innerHTML = `${data.description}`
         
         let quantity = document.getElementById("quantity")
-        
 
         let addToCart = document.getElementById("addToCart")
         addToCart.addEventListener("click", function(){
           console.log(id)
+          
+          if(colors.value === "" || quantity.value <= 0 || quantity.value >100){
+              let msg="Attention, vous avez oublié de saisir la couleur et la quantité !"
+              console.log(msg)
+              alert(msg);
+          }
+          else {
           let addkanap = {
             _id: id,
             color: colors.value,
@@ -55,11 +61,10 @@ fetch('http://localhost:3000/api/products/' + id)
           }
           panier.push(addkanap)
           localStorage.setItem("panier", JSON.stringify(panier))
-
-        })
-
-        })
-    })
+        }
+      })
+     })
+   })
 
   .catch(function(err) {
     console.log('Fetch Error :-S', err);

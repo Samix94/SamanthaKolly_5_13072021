@@ -5,7 +5,9 @@ console.log(id)
 let panier = []
   if (localStorage.getItem("panier")){
   console.log("coucou")
-let panier = JSON.parse(localStorage.getItem("panier"))
+}
+  else{
+    let panier = JSON.parse(localStorage.getItem("panier"))
   console.log(panier)
   }
 
@@ -22,8 +24,7 @@ fetch('http://localhost:3000/api/products/' + id)
         console.log(data.colors);
 
         let img = document.getElementById("imageUrl")
-        img.innerHTML = `<img src="../images/${data.imageUrl}" alt="${data.altTxt}"`
-
+        img.innerHTML = `<img src="${data.imageUrl}" alt="${data.altTxt}">`
         let colors= document.getElementById("colors")
         let option = ""
         data.colors.forEach(color => {
@@ -52,15 +53,27 @@ fetch('http://localhost:3000/api/products/' + id)
               let msg="Attention, vous avez oublié de saisir la couleur et la quantité !"
               console.log(msg)
               alert(msg);
-          }
+            }
           else {
           let addkanap = {
             _id: id,
             color: colors.value,
             qts: quantity.value,
+            }
+
+          let compare = panier.find( kanap => kanap._id === addkanap._id && kanap.color === addkanap.color);
+          if(compare){
+            console.log(compare.qts)
+            compare.qts = parseInt(compare.qts) + parseInt(addkanap.qts)
+            console.log(compare)
+            localStorage.setItem("panier", JSON.stringify(panier))
           }
-          panier.push(addkanap)
+          else{
+            console.log("pas d'objet trouvé")
+
+            panier.push(addkanap)
           localStorage.setItem("panier", JSON.stringify(panier))
+          }
         }
       })
      })
